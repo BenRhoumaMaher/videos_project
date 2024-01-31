@@ -1,0 +1,13 @@
+{% if editedCategory.parend is defined and editedCategory.parent == null %}
+<option value="0" selected>No parent</option>
+{% else %}
+<option value="0">No parent</option>
+{% endif %}
+{% for category in categories.categorylist %}
+    {% if editedCategory.parend.getId() is defined and editedCategory.parend.getId() == category.id %}
+    <option value="{{category.id}}" selected>{{category.name}}</option>
+    {% else %}
+    <option value="{{category.id}}">{{category.name}}</option>
+    {% endif %}
+
+{% endfor %}
