@@ -43,9 +43,14 @@
 
     <nav class="my-2 my-md-0 mr-md-3">
        {{ render(controller('App\\Controller\\FrontController::mainCategories')) }}
+       {% if app.user %}
+       <a href="{{path('admin_main_page')}}" class="p-2 text-dark">My account</a>
+       {% endif %}
     </nav>
+    {% if not app.user %}
     <a class="btn btn-outline-primary mr-2" href="{{path('pricing')}}">Sign up</a>
     <a class="btn btn-outline-primary" href="{{path('login')}}">Sign in</a>
+    {% endif %}
 </div>
 {% endblock %}
 

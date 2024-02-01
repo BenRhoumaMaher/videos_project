@@ -9,11 +9,11 @@
 {% block main %}
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
         <h5 class="my-0 mr-md-auto font-weight-normal">Awesome Videos</h5>
-        <a class="nav-link active" href="{{path('admin_main_page')}}"> Go to public site</a>      
+        <a class="nav-link active" href="{{path('app_front')}}"> Go to public site</a>      
         <nav class="my-2 my-md-0 mr-md-3">
-            <a class="p-2 text-dark">Logged as John Smith</a>
+            <a class="p-2 text-dark">Logged as {{app.user.name}}_{{app.user.lastname}}</a>
         </nav>
-        <a class="btn btn-outline-primary" href="#">Logout</a>
+        <a class="btn btn-outline-primary" href="{{path('logout')}}">Logout</a>
     </div>
 
         <div class="row">
@@ -26,18 +26,21 @@
                                 My profile
                             </a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN')  %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{path('categories')}}">
                                 <span data-feather="file"></span>
                                 Categories
                             </a>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{path('videos')}}">
                                 <span data-feather="shopping-cart"></span>
                                 Videos
                             </a>
                         </li>
+                        {% if is_granted('ROLE_ADMIN')  %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{path('upload_video')}}">
                                 <span data-feather="shopping-cart"></span>
@@ -50,6 +53,7 @@
                                 Users
                             </a>
                         </li>
+                        {% endif %}
                     </ul>
                     
                 </div>
