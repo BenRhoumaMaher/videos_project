@@ -2,25 +2,34 @@
 
 namespace App\Controller;
 
-use App\Repository\CategoryRepository;
+use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\VideoRepository;
 use App\Utils\CategoryTreeFrontPage;
+use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Void_;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class FrontController extends AbstractController
 {
 
     private $categoryRepository;
     private $videoRepository;
-    public function __construct(CategoryRepository $categoryRepository, VideoRepository $videoRepository)
+    private $entityManager;
+    private $userPasswordHasher;
+    public function __construct(CategoryRepository $categoryRepository, VideoRepository $videoRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->categoryRepository = $categoryRepository;
         $this->videoRepository = $videoRepository;
+        $this->entityManager = $entityManager;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
     #[Route('/front', name: 'app_front')]
     public function index(): Response
@@ -76,10 +85,27 @@ class FrontController extends AbstractController
     }
 
     #[Route('/register', name: 'register')]
-    public function register(): Response
+    public function register(Request $request): Response
     {
-        return $this->render('front/register.html.twig');
+        $user = new User;
+        $form = $this->createForm(UserType::class,$user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $password = $this->userPasswordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($password);
+            $user->setRoles(['ROLE_USER']);
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('login');
+        }
+        return $this->render('front/register.html.twig',[
+            'form' => $form->createView()
+        ]);
     }
+
 
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $helper): Response
