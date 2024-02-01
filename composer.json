@@ -46,12 +46,14 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
-        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "*",
+        "phpstan/phpstan": "*",
+        "phpunit/phpunit": "*",
         "symfony/browser-kit": "6.3.*",
         "symfony/css-selector": "6.3.*",
         "symfony/debug-bundle": "6.3.*",
         "symfony/maker-bundle": "^1.0",
-        "symfony/phpunit-bridge": "^7.0",
+        "symfony/phpunit-bridge": "*",
         "symfony/profiler-pack": "*",
         "symfony/stopwatch": "6.3.*",
         "symfony/web-profiler-bundle": "6.3.*"
