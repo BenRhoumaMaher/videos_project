@@ -46,7 +46,7 @@ abstract class CategoryTreeAbstract
             return self::$dbconnection;
         } else {
             $sql = "SELECT * FROM categories";
-            $result = $this->entityManager->getConnection()->executeQuery($sql)->fetchAll();
+            $result = $this->entityManager->getConnection()->executeQuery($sql)->fetchAllAssociative();
 
             return self::$dbconnection = $result;
         }

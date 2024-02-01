@@ -53,6 +53,7 @@
         "symfony/css-selector": "6.3.*",
         "symfony/debug-bundle": "6.3.*",
         "symfony/maker-bundle": "^1.0",
+        "symfony/panther": "*",
         "symfony/phpunit-bridge": "*",
         "symfony/profiler-pack": "*",
         "symfony/stopwatch": "6.3.*",
